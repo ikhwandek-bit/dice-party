@@ -76,4 +76,13 @@ inline GameState roll_dice(GameState game) {
   ++game.rolls_used;
   return game;
 
-}  // namespace dice_party
+} 
+
+inline GameState change_die_state(GameState game, int die_index) {
+  if (die_index >= 0 && die_index < kDieCount) {
+    game.dice[die_index].locked = !game.dice[die_index].locked;
+  }
+  return game;
+}
+
+}// namespace dice_party
