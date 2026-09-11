@@ -8,23 +8,21 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 
 ## Completed tasks
 
-_(none)_
+### Phase 1 — Project Foundation
+
+- [x] Create C++ source layout (e.g. `src/` for program, separate file(s) for rules vs I/O)
+- [x] Add a build configuration that compiles a terminal executable with no extra libraries
+- [x] Define a five-dice representation (faces 1–6, lock flags)
+- [x] Define a scorecard representation (13 categories, unused vs filled, recorded values)
+- [x] Define game-state fields (turn 1–13, rolls used this turn 1–3, running bonuses)
+- [x] Add `main` that builds, starts, and exits without playing a real game
+- [x] Keep scoring/state functions free of `cin`/`cout` (I/O only at the edge)
 
 ## Current tasks
 
-Phase 1 is the active phase. Later phases stay listed so the full build order is visible; do not start them until the previous phase exit criteria pass (scoring tests in Phase 3/7 may begin once dice faces exist).
+Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). Phase 2 is next; do not start later phases until its exit criteria pass (scoring tests in Phase 3/7 may begin once dice faces exist).
 
 ---
-
-## Phase 1 — Project Foundation
-
-- [ ] Create C++ source layout (e.g. `src/` for program, separate file(s) for rules vs I/O)
-- [ ] Add a build configuration that compiles a terminal executable with no extra libraries
-- [ ] Define a five-dice representation (faces 1–6, lock flags)
-- [ ] Define a scorecard representation (13 categories, unused vs filled, recorded values)
-- [ ] Define game-state fields (turn 1–13, rolls used this turn 1–3, running bonuses)
-- [ ] Add `main` that builds, starts, and exits without playing a real game
-- [ ] Keep scoring/state functions free of `cin`/`cout` (I/O only at the edge)
 
 ## Phase 2 — Dice System
 
