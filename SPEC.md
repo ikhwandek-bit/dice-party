@@ -1,6 +1,6 @@
 # Dice-Party — Specification
 
-> **Status:** planning (not implemented)
+> **Status:** Phase 1 complete (foundation stub; game not playable)
 > **Last updated:** 2026-09-11
 > **Version:** 0.1
 

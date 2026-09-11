@@ -20,7 +20,7 @@ Scoring unit tests (Phase 3 / 7) must not depend on a finished UI.
 
 ## Phase 1 — Project Foundation
 
-Status: Not started
+Status: Complete
 
 ### Outcome
 
