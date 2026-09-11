@@ -26,8 +26,8 @@ Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
 
 ## Phase 2 — Dice System
 
-- [ ] Roll a single unlocked die to a value in 1–6
-- [ ] Roll only unlocked dice; leave locked faces unchanged
+- [x] Roll a single unlocked die to a value in 1–6
+- [x] Roll only unlocked dice; leave locked faces unchanged
 - [ ] Lock any subset of the five dice after a roll
 - [ ] Unlock previously locked dice before the next roll
 - [ ] Count rolls and refuse a fourth roll in the same turn

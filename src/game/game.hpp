@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdlib>
 
 // Core game data. No terminal I/O belongs in this header.
 
@@ -65,5 +66,14 @@ inline int unused_category_count(const Scorecard& card) {
   }
   return unused;
 }
+
+inline GameState roll_dice(GameState game) {
+  for (int i = 0; i < kDieCount; ++i) {
+    if (!game.dice[i].locked) {
+      game.dice[i].face = std::rand() % 6 + 1; // Generates a random number between 1 and 6
+    }
+  }
+  ++game.rolls_used;
+  return game;
 
 }  // namespace dice_party
