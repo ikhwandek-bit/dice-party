@@ -52,10 +52,6 @@ Read only the documents needed for the task:
 - `SPEC.md` for product requirements, boundaries, and acceptance criteria.
 - `ROADMAP.md` for ordered outcomes, risks, and phase exit criteria.
 - `TASKS.md` for the current phase, validation status, and remaining work.
-- `docs/CODEX_LAYOUT.md` for Codex discovery and installation boundaries.
-- `docs/SKILLS.md` when creating or changing skills.
-- `docs/ASTRA.md` when changing model defaults or auditing agent efficiency.
-- `docs/WORKFLOW.md` when changing the repository development workflow.
 
 ## Verification
 
