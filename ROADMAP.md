@@ -53,7 +53,7 @@ A C++ terminal program that builds, starts, and exits, with core data shapes ske
 
 ## Phase 2 — Dice System
 
-Status: In Progress
+Status: In Review
 
 ### Outcome
 

@@ -30,9 +30,9 @@ Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
 - [x] Roll only unlocked dice; leave locked faces unchanged
 - [x] Lock any subset of the five dice after a roll
 - [x] Unlock previously locked dice before the next roll
-- [ ] Count rolls and refuse a fourth roll in the same turn
-- [ ] Reset all locks (and roll count) when a new turn starts
-- [ ] Inject or seed RNG so dice behavior can be tested without the terminal
+- [x] Count rolls and refuse a fourth roll in the same turn
+- [x] Reset all locks (and roll count) when a new turn starts
+- [x] Inject or seed RNG so dice behavior can be tested without the terminal
 
 ## Phase 3 — Scoring System
 

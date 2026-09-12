@@ -1,5 +1,6 @@
 #pragma once
-#include <cstdlib>
+#include <chrono>
+#include <random>
 
 // Core game data. No terminal I/O belongs in this header.
 
@@ -14,6 +15,8 @@ inline constexpr int kCategoryCount = 13;
 inline constexpr int kUpperBonusThreshold = 63;
 inline constexpr int kUpperBonusPoints = 35;
 inline constexpr int kFiveOfAKindBonusPoints = 100;
+unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
+std::mt19937 gen(seed);
 
 enum class Category {
   Ones = 0,
@@ -68,20 +71,51 @@ inline int unused_category_count(const Scorecard& card) {
 }
 
 inline GameState roll_dice(GameState game) {
+  int locked_count = 0;
+  for (int i = 0; i < kDieCount; ++i) {
+    if (game.dice[i].locked) {
+      ++locked_count;
+    }
+  }
+
+  if (locked_count == kDieCount) {
+    std::cout << "[ILLEGAL MOVE] All dice are locked. Cannot roll." << std::endl;
+    return game; // All dice are locked, no need to roll
+  }
+
+  if (game.rolls_used >= kMaxRollsPerTurn) {
+    std::cout << "[ILLEGAL MOVE] Maximum rolls reached. Cannot roll." << std::endl;
+    return game; // Maximum rolls reached, no need to roll
+  }
+
   for (int i = 0; i < kDieCount; ++i) {
     if (!game.dice[i].locked) {
-      game.dice[i].face = std::rand() % 6 + 1; // Generates a random number between 1 and 6
+      game.dice[i].face = gen() % 6 + 1; // Generates a random number between 1 and 6
     }
   }
   ++game.rolls_used;
   return game;
-
 } 
 
 inline GameState change_die_state(GameState game, int die_index) {
   if (die_index >= 0 && die_index < kDieCount) {
     game.dice[die_index].locked = !game.dice[die_index].locked;
   }
+  return game;
+}
+
+inline GameState new_turn(GameState game) {
+  if (game.turn >= kTurnCount) {
+    std::cout << "[ILLEGAL MOVE] Maximum turns reached. Cannot start a new turn." << std::endl;
+    return game; // Maximum turns reached, no need to start a new turn
+  }
+
+  for (int i = 0; i < kDieCount; ++i) {
+    game.dice[i].face = 0; // Reset dice faces
+    game.dice[i].locked = false; // Unlock all dice
+  }
+  game.rolls_used = 0;
+  ++game.turn;
   return game;
 }
 
