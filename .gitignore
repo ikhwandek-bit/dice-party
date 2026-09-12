@@ -13,4 +13,4 @@ compile_commands.json
 .vs/
 .idea/
 *.user
-/.vscode/
+.vscode/
