@@ -311,10 +311,10 @@ Resolved in §12 for implementation, but flagged so a later spec change is expli
 - [x] Forced Upper vs free Lower — **Decision:** matching unused Upper is mandatory; Lower Joker only if that Upper is already used.
 - [x] Deadlock when Lower is full — **Decision:** unused non-matching Upper scores 0.
 - [x] Bonus if Five of a Kind was 0 — **Decision:** no +100 and no Joker.
+- [x] Reroll with all dice locked — **Decision:** the action will be rejected and treated as an illegal move (will be implemented on phase 6)  
 
 Still open (choose during implementation or a spec revision; do not silently invent extra mechanics):
 
-- [ ] **Reroll with all dice locked:** consume a roll, reject the action, or treat it as a no-op without consuming a roll?
 - [ ] **Must the player confirm a category after roll 3, vs auto-prompt until valid?** UX only; rules already require a category.
 - [ ] **Display of running Upper Bonus:** show “35 if Upper ≥ 63” during play, or only apply at end? Either is rules-legal if the final total is correct.
 - [ ] **Command language** (keys vs typed names) is unspecified; any clear terminal scheme is acceptable.

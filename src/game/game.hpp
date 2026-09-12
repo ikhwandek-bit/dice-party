@@ -1,5 +1,4 @@
 #pragma once
-#include <chrono>
 #include <random>
 
 // Core game data. No terminal I/O belongs in this header.
@@ -15,8 +14,6 @@ inline constexpr int kCategoryCount = 13;
 inline constexpr int kUpperBonusThreshold = 63;
 inline constexpr int kUpperBonusPoints = 35;
 inline constexpr int kFiveOfAKindBonusPoints = 100;
-unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
-std::mt19937 gen(seed);
 
 enum class Category {
   Ones = 0,
@@ -48,9 +45,14 @@ struct Scorecard {
   CategorySlot slots[kCategoryCount]{};
 };
 
+struct IllegalMove {
+  int type = 0; // 0 = none, 1 = all dice locked, 2 = max rolls reached, 3 = max turns reached
+};
+
 struct GameState {
   Die dice[kDieCount]{};
   Scorecard scorecard{};
+  IllegalMove illegal_move{};
   int turn = 1;        // 1–13
   int rolls_used = 0;  // 0–3 in the current turn
   int five_of_a_kind_bonus_total = 0;
@@ -70,7 +72,7 @@ inline int unused_category_count(const Scorecard& card) {
   return unused;
 }
 
-inline GameState roll_dice(GameState game) {
+inline GameState roll_dice(GameState game, std::mt19937& gen) {
   int locked_count = 0;
   for (int i = 0; i < kDieCount; ++i) {
     if (game.dice[i].locked) {
@@ -79,12 +81,12 @@ inline GameState roll_dice(GameState game) {
   }
 
   if (locked_count == kDieCount) {
-    std::cout << "[ILLEGAL MOVE] All dice are locked. Cannot roll." << std::endl;
+    game.illegal_move.type = 1;
     return game; // All dice are locked, no need to roll
   }
 
   if (game.rolls_used >= kMaxRollsPerTurn) {
-    std::cout << "[ILLEGAL MOVE] Maximum rolls reached. Cannot roll." << std::endl;
+    game.illegal_move.type = 2;
     return game; // Maximum rolls reached, no need to roll
   }
 
@@ -106,7 +108,7 @@ inline GameState change_die_state(GameState game, int die_index) {
 
 inline GameState new_turn(GameState game) {
   if (game.turn >= kTurnCount) {
-    std::cout << "[ILLEGAL MOVE] Maximum turns reached. Cannot start a new turn." << std::endl;
+    game.illegal_move.type = 3;
     return game; // Maximum turns reached, no need to start a new turn
   }
 
