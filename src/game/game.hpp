@@ -74,6 +74,7 @@ inline int unused_category_count(const Scorecard& card) {
 
 inline GameState roll_dice(GameState game, std::mt19937& gen) {
   int locked_count = 0;
+  game.illegal_move.type = 0; // Reset illegal move type at the start of the roll
   for (int i = 0; i < kDieCount; ++i) {
     if (game.dice[i].locked) {
       ++locked_count;
@@ -92,7 +93,7 @@ inline GameState roll_dice(GameState game, std::mt19937& gen) {
 
   for (int i = 0; i < kDieCount; ++i) {
     if (!game.dice[i].locked) {
-      game.dice[i].face = gen() % 6 + 1; // Generates a random number between 1 and 6
+      game.dice[i].face = std::uniform_int_distribution<int>(1, 6)(gen); // Generates a random number between 1 and 6
     }
   }
   ++game.rolls_used;
