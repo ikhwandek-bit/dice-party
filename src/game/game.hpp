@@ -104,7 +104,7 @@ inline GameState roll_dice(GameState game, std::mt19937& gen) {
 
   for (int i = 0; i < kDieCount; ++i) {
     if (!game.dice[i].locked) {
-      game.dice[i].face = std::uniform_int_distribution<int>(1, 6)(gen); // Generates a random number between 1 and 6
+      game.dice[i].face = std::uniform_int_distribution<int>(kMinFace, kMaxFace)(gen); // Generates a random number between 1 and 6
     }
   }
   ++game.rolls_used;
