@@ -20,7 +20,7 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 
 ## Current tasks
 
-Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). Phase 2 is next; do not start later phases until its exit criteria pass (scoring tests in Phase 3/7 may begin once dice faces exist).
+Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). Phase 3 is next; do not start later phases until their exit criteria pass.
 
 ---
 
@@ -33,6 +33,8 @@ Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
 - [x] Count rolls and refuse a fourth roll in the same turn
 - [x] Reset all locks (and roll count) when a new turn starts
 - [x] Inject or seed RNG so dice behavior can be tested without the terminal
+- [x] Report illegal moves observably and clear the flag on success (all-locked, max-rolls, max-turns, pre-roll lock, bad index)
+- [x] Cover dice roll/lock/roll-limit/turn-reset with `dice-tests` (seeded RNG, no terminal)
 
 ## Phase 3 — Scoring System
 

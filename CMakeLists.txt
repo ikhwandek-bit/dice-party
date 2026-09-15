@@ -12,3 +12,13 @@ add_executable(dice-party
 )
 
 target_include_directories(dice-party PRIVATE src)
+
+enable_testing()
+
+add_executable(dice-tests
+  tests/test_dice.cpp
+)
+
+target_include_directories(dice-tests PRIVATE src)
+
+add_test(NAME dice-tests COMMAND dice-tests)
