@@ -18,12 +18,6 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] Add `main` that builds, starts, and exits without playing a real game
 - [x] Keep scoring/state functions free of `cin`/`cout` (I/O only at the edge)
 
-## Current tasks
-
-Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). Phase 3 is next; do not start later phases until their exit criteria pass.
-
----
-
 ## Phase 2 — Dice System
 
 - [x] Roll a single unlocked die to a value in 1–6
@@ -36,18 +30,25 @@ Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
 - [x] Report illegal moves observably and clear the flag on success (all-locked, max-rolls, max-turns, pre-roll lock, bad index)
 - [x] Cover dice roll/lock/roll-limit/turn-reset with `dice-tests` (seeded RNG, no terminal)
 
+## Current tasks
+
+Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
+Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). 
+Phase 3 exit criteria passed (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
+Phase 4 — Game flow is next.
+
 ## Phase 3 — Scoring System
 
-- [ ] Score Ones–Sixes as the sum of matching faces
-- [ ] Award Upper Section Bonus 35 iff the six Upper totals sum to ≥ 63
-- [ ] Score Three of a Kind (sum of five, or 0)
-- [ ] Score Four of a Kind (sum of five, or 0)
-- [ ] Score Full House as 25; reject five of a kind
-- [ ] Score Small Straight as 30 (four consecutive faces; duplicates allowed)
-- [ ] Score Large Straight as 40 only for 1–5 and 2–6
-- [ ] Score Five of a Kind as 50 or 0
-- [ ] Score Chance as the sum of all five dice
-- [ ] Add unit tests for SPEC.md examples and the invalid cases in §7–§8 (no terminal)
+- [x] Score Ones–Sixes as the sum of matching faces
+- [x] Award Upper Section Bonus 35 iff the six Upper totals sum to ≥ 63
+- [x] Score Three of a Kind (sum of five, or 0)
+- [x] Score Four of a Kind (sum of five, or 0)
+- [x] Score Full House as 25; reject five of a kind
+- [x] Score Small Straight as 30 (four consecutive faces; duplicates allowed)
+- [x] Score Large Straight as 40 only for 1–5 and 2–6
+- [x] Score Five of a Kind as 50 or 0
+- [x] Score Chance as the sum of all five dice
+- [x] Add unit tests for SPEC.md examples and the invalid cases in §7–§8 (no terminal)
 
 ## Phase 4 — Game Flow
 
