@@ -195,7 +195,7 @@ inline bool has_small_straight(const GameState& g) {
 }
 
 inline bool has_large_straight(const GameState& g) {
-  bool has1 = false, has2 = false, has3 = false, has4 = false, has5 = false;
+  bool has1 = false, has2 = false, has3 = false, has4 = false, has5 = false, has6 = false;
   for (int i = 0; i < kDieCount; ++i) {
     int f = g.dice[i].face;
     if (f == 1) has1 = true;
@@ -203,9 +203,10 @@ inline bool has_large_straight(const GameState& g) {
     else if (f == 3) has3 = true;
     else if (f == 4) has4 = true;
     else if (f == 5) has5 = true;
+    else if (f == 6) has6 = true;
   }
   return (has1 && has2 && has3 && has4 && has5) ||
-         (!has1 && has2 && has3 && has4 && has5);
+         (has2 && has3 && has4 && has5 && has6);
 }
 
 } // namespace detail
