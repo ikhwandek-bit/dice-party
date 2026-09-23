@@ -43,21 +43,21 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] Score Chance as the sum of all five dice
 - [x] Add unit tests for SPEC.md examples and the invalid cases in §7–§8 (no terminal)
 
-## Current tasks
+## Completed tasks
 
 ### Phase 4 — Game Flow
 
-- [ ] Start a game with 13 unused categories
-- [ ] Require a first roll every turn
-- [ ] Allow category selection after roll 1, 2, or 3
-- [ ] Force category selection after roll 3
-- [ ] Reject selecting a category that is already filled
-- [ ] Allow filling a category with 0 when the dice do not match
-- [ ] Advance exactly 13 turns, one category per turn
-- [ ] Compute final total: Upper + Upper Bonus + Lower (no Joker yet)
-- [ ] End the game after the 13th fill and report the total
+- [x] Start a game with 13 unused categories
+- [x] Require a first roll every turn
+- [x] Allow category selection after roll 1, 2, or 3
+- [x] Force category selection after roll 3
+- [x] Reject selecting a category that is already filled
+- [x] Allow filling a category with 0 when the dice do not match
+- [x] Advance exactly 13 turns, one category per turn
+- [x] Compute final total: Upper + Upper Bonus + Lower (no Joker yet)
+- [x] End the game after the 13th fill and report the total
 
-## Upcoming tasks
+## Current tasks
 
 ### Phase 5 — Special Rules
 
@@ -71,6 +71,8 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [ ] If Lower is full, force another unused Upper for 0
 - [ ] If Five of a Kind holds 0: no +100, no Joker, normal §8 scoring
 - [ ] Cover SPEC.md §12.4 examples A–E with tests
+
+## Upcoming tasks
 
 ### Phase 6 — Terminal UI
 
