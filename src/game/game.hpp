@@ -165,6 +165,13 @@ inline bool has_four_of_a_kind(const GameState& g) {
   return false;
 }
 
+inline bool has_five_of_a_kind(const GameState& g) {
+  for (int f = kMinFace; f <= kMaxFace; ++f) {
+    if (count_face(g, f) == kDieCount) return true;
+  }
+  return false;
+}
+
 inline bool has_full_house(const GameState& g) {
   int three_count = 0, two_count = 0;
   for (int f = kMinFace; f <= kMaxFace; ++f) {
@@ -258,13 +265,7 @@ inline int score_large_straight(const GameState& g) {
 }
 
 inline int score_five_of_a_kind(const GameState& g) {
-  for (int f = kMinFace; f <= kMaxFace; ++f) {
-    int count = 0;
-    for (int i = 0; i < kDieCount; ++i) {
-      if (g.dice[i].face == f) ++count;
-    }
-    if (count == kDieCount) return 50; // Five of a Kind category scores 50
-  }
+  if (detail::has_five_of_a_kind(g)) return 50;
   return 0;
 }
 
