@@ -1,8 +1,8 @@
 # Dice-Party — Specification
 
-> **Status:** Phase 1 complete (foundation stub; game not playable)
-> **Last updated:** 2026-09-11
-> **Version:** 0.1
+> **Status:** Phase 4 In development  
+> **Last updated:** 2026-09-23  
+> **Version:** 0.4  
 
 ---
 
@@ -54,6 +54,16 @@ Out of scope for this version:
 3. A turn consists of rolling (and optionally rerolling) five dice, then assigning the final dice to one unused category.
 4. After the 13th category is filled, the game computes bonuses that depend on the finished card (Upper Section Bonus is based on the six Upper totals; Five-of-a-Kind Bonuses are awarded during play when they occur).
 5. The game ends and reports the final total. The player cannot start extra turns.
+
+### 4.1 Command language
+
+1. The player will use keys in order to play the game  
+2. Key '**R**' is to roll or re-roll the dice  
+3. Key '**1**' '**2**' '**3**' '**4**' '**5**' is to lock/unlocked the respective die
+4. Key '**S**' is for the "scoring" tab
+5. Inside the "scoring" tab the player can choose the category that they want to score  
+6. The scoring key will follow the enum class (e.g '**0**' for ones, '**8**' for full house etc...)
+7. The player can go back to the "dice" tab by pressing '**S**' again
 
 ---
 
@@ -312,12 +322,12 @@ Resolved in §12 for implementation, but flagged so a later spec change is expli
 - [x] Deadlock when Lower is full — **Decision:** unused non-matching Upper scores 0.
 - [x] Bonus if Five of a Kind was 0 — **Decision:** no +100 and no Joker.
 - [x] Reroll with all dice locked — **Decision:** the action will be rejected and treated as an illegal move (will be implemented on phase 6)  
+- [x] Must the player confirm a category after roll 3, vs auto-prompt until valid? — **Decision:** The player must confirmt a category after roll 3  
+- [x] Display of running Upper Bonus — **Decision** show “35 if Upper ≥ 63” during play  
+- [x] Command language — **Decision** the user will use keys to navigate the game
 
 Still open (choose during implementation or a spec revision; do not silently invent extra mechanics):
 
-- [ ] **Must the player confirm a category after roll 3, vs auto-prompt until valid?** UX only; rules already require a category.
-- [ ] **Display of running Upper Bonus:** show “35 if Upper ≥ 63” during play, or only apply at end? Either is rules-legal if the final total is correct.
-- [ ] **Command language** (keys vs typed names) is unspecified; any clear terminal scheme is acceptable.
 - [ ] **Zero-roll display / seed control** for tests: production play is random; tests may inject dice. How the binary exposes that is an implementation detail.
 - [ ] **Quitting mid-game:** not specified. Until defined, a mid-game abort is not a completed game and need not write a final score.
 
