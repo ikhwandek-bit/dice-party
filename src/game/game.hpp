@@ -143,24 +143,24 @@ inline GameState new_turn(GameState game) {
 
 namespace detail {
 
+inline int count_face(const GameState& g, int face) {
+  int count = 0;
+  for (int i = 0; i < kDieCount; ++i) {
+    if (g.dice[i].face == face) ++count;
+  }
+  return count;
+}
+
 inline bool has_three_of_a_kind(const GameState& g) {
   for (int f = kMinFace; f <= kMaxFace; ++f) {
-    int count = 0;
-    for (int i = 0; i < kDieCount; ++i) {
-      if (g.dice[i].face == f) ++count;
-    }
-    if (count >= 3) return true;
+    if (count_face(g, f) >= 3) return true;
   }
   return false;
 }
 
 inline bool has_four_of_a_kind(const GameState& g) {
   for (int f = kMinFace; f <= kMaxFace; ++f) {
-    int count = 0;
-    for (int i = 0; i < kDieCount; ++i) {
-      if (g.dice[i].face == f) ++count;
-    }
-    if (count >= 4) return true;
+    if (count_face(g, f) >= 4) return true;
   }
   return false;
 }
@@ -168,10 +168,7 @@ inline bool has_four_of_a_kind(const GameState& g) {
 inline bool has_full_house(const GameState& g) {
   int three_count = 0, two_count = 0;
   for (int f = kMinFace; f <= kMaxFace; ++f) {
-    int count = 0;
-    for (int i = 0; i < kDieCount; ++i) {
-      if (g.dice[i].face == f) ++count;
-    }
+    int count = count_face(g, f);
     if (count >= 3) ++three_count;
     else if (count == 2) ++two_count;
   }
@@ -211,50 +208,10 @@ inline bool has_large_straight(const GameState& g) {
 
 } // namespace detail
 
-inline int score_ones(const GameState& g) {
+inline int score_upper(const GameState& g, int face) {
   int sum = 0;
   for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 1) sum += 1;
-  }
-  return sum;
-}
-
-inline int score_twos(const GameState& g) {
-  int sum = 0;
-  for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 2) sum += 2;
-  }
-  return sum;
-}
-
-inline int score_threes(const GameState& g) {
-  int sum = 0;
-  for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 3) sum += 3;
-  }
-  return sum;
-}
-
-inline int score_fours(const GameState& g) {
-  int sum = 0;
-  for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 4) sum += 4;
-  }
-  return sum;
-}
-
-inline int score_fives(const GameState& g) {
-  int sum = 0;
-  for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 5) sum += 5;
-  }
-  return sum;
-}
-
-inline int score_sixes(const GameState& g) {
-  int sum = 0;
-  for (int i = 0; i < kDieCount; ++i) {
-    if (g.dice[i].face == 6) sum += 6;
+    if (g.dice[i].face == face) sum += face;
   }
   return sum;
 }

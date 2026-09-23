@@ -51,25 +51,24 @@ int main() {
   using namespace dice_party;
 
   // --- Upper Section: valid (SPEC §7.1 example) ---
-  EXPECT_EQ(score_sixes(make_state({6, 6, 1, 3, 6})), 18, "sixes SPEC example 6,6,1,3,6 -> 18");
-  EXPECT_EQ(score_ones(make_state({1, 1, 3, 4, 6})), 2, "ones partial");
-  EXPECT_EQ(score_twos(make_state({2, 2, 2, 4, 5})), 6, "twos valid");
-  EXPECT_EQ(score_threes(make_state({3, 3, 3, 3, 5})), 12, "threes valid");
-  EXPECT_EQ(score_fours(make_state({4, 4, 1, 2, 6})), 8, "fours valid");
-  EXPECT_EQ(score_fives(make_state({5, 5, 5, 1, 2})), 15, "fives valid");
-  EXPECT_EQ(score_sixes(make_state({6, 1, 2, 3, 4})), 6, "sixes single");
+  EXPECT_EQ(score_upper(make_state({6, 6, 1, 3, 6}), 6), 18, "sixes SPEC example 6,6,1,3,6 -> 18");
+  EXPECT_EQ(score_upper(make_state({1, 1, 3, 4, 6}), 1), 2, "ones partial");
+  EXPECT_EQ(score_upper(make_state({2, 2, 2, 4, 5}), 2), 6, "twos valid");
+  EXPECT_EQ(score_upper(make_state({3, 3, 3, 3, 5}), 3), 12, "threes valid");
+  EXPECT_EQ(score_upper(make_state({4, 4, 1, 2, 6}), 4), 8, "fours valid");
+  EXPECT_EQ(score_upper(make_state({5, 5, 5, 1, 2}), 5), 15, "fives valid");
+  EXPECT_EQ(score_upper(make_state({6, 1, 2, 3, 4}), 6), 6, "sixes single");
 
   // --- Upper Section: 0-score (no matching face) ---
-  EXPECT_EQ(score_ones(make_state({2, 3, 4, 5, 6})), 0, "ones zero");
-  EXPECT_EQ(score_twos(make_state({1, 3, 4, 5, 6})), 0, "twos zero");
-  EXPECT_EQ(score_threes(make_state({1, 2, 4, 5, 6})), 0, "threes zero");
-  EXPECT_EQ(score_fours(make_state({1, 2, 3, 5, 6})), 0, "fours zero");
-  EXPECT_EQ(score_fives(make_state({1, 2, 3, 4, 6})), 0, "fives zero");
-  EXPECT_EQ(score_sixes(make_state({1, 2, 3, 4, 5})), 0, "sixes zero");
-
+  EXPECT_EQ(score_upper(make_state({2, 3, 4, 5, 6}), 1), 0, "ones zero");
+  EXPECT_EQ(score_upper(make_state({1, 3, 4, 5, 6}), 2), 0, "twos zero");
+  EXPECT_EQ(score_upper(make_state({1, 2, 4, 5, 6}), 3), 0, "threes zero");
+  EXPECT_EQ(score_upper(make_state({1, 2, 3, 5, 6}), 4), 0, "fours zero");
+  EXPECT_EQ(score_upper(make_state({1, 2, 3, 4, 6}), 5), 0, "fives zero");
+  EXPECT_EQ(score_upper(make_state({1, 2, 3, 4, 5}), 6), 0, "sixes zero");
   // --- Upper Section: invalid-as-dump (five of a kind of another face scores 0) ---
-  EXPECT_EQ(score_ones(make_state({6, 6, 6, 6, 6})), 0, "ones invalid vs five sixes");
-  EXPECT_EQ(score_sixes(make_state({1, 1, 1, 1, 1})), 0, "sixes invalid vs five ones");
+  EXPECT_EQ(score_upper(make_state({6, 6, 6, 6, 6}), 1), 0, "ones invalid vs five sixes");
+  EXPECT_EQ(score_upper(make_state({1, 1, 1, 1, 1}), 6), 0, "sixes invalid vs five ones");
 
   // --- Upper Bonus (§7.2): 35 iff Upper sum >= 63 ---
   EXPECT(upper_bonus_earned(make_upper(3, 6, 9, 12, 15, 18)), "bonus at exactly 63");  // 3*(1+..+6)=63
