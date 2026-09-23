@@ -6,6 +6,13 @@ Prioritize game rules and core logic before terminal presentation. Do not add GU
 
 Move a task to completed only after its acceptance criteria and the phase exit criteria in `ROADMAP.md` that it supports have passed. Keep this list aligned with `SPEC.md`; if implementation decides an open question, update `SPEC.md` in the same change.
 
+## Current tasks
+
+Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
+Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). 
+Phase 3 exit criteria testing (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
+Phase 4 — Game flow is next.
+
 ## Completed tasks
 
 ### Phase 1 — Project Foundation
@@ -29,13 +36,6 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] Inject or seed RNG so dice behavior can be tested without the terminal
 - [x] Report illegal moves observably and clear the flag on success (all-locked, max-rolls, max-turns, pre-roll lock, bad index)
 - [x] Cover dice roll/lock/roll-limit/turn-reset with `dice-tests` (seeded RNG, no terminal)
-
-## Current tasks
-
-Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
-Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). 
-Phase 3 exit criteria passed (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
-Phase 4 — Game flow is next.
 
 ## Phase 3 — Scoring System
 
