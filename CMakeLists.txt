@@ -30,3 +30,11 @@ add_executable(scoring-tests
 target_include_directories(scoring-tests PRIVATE src)
 
 add_test(NAME scoring-tests COMMAND scoring-tests)
+
+add_executable(game-flow-tests
+  tests/test_game_flow.cpp
+)
+
+target_include_directories(game-flow-tests PRIVATE src)
+
+add_test(NAME game-flow-tests COMMAND game-flow-tests)
