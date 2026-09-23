@@ -51,7 +51,11 @@ enum class IllegalMoveType {
   MaxRollsReached = 2,
   MaxTurnsReached = 3,
   LockBeforeFirstRoll = 4,
-  InvalidDieIndex = 5
+  InvalidDieIndex = 5,
+  NoRollYet = 6,
+  CategoryAlreadyFilled = 7,
+  InvalidCategory = 8,
+  GameAlreadyOver = 9
 };
 
 struct IllegalMove {
@@ -273,6 +277,110 @@ inline int score_chance(const GameState& g) {
   int sum = 0;
   for (int i = 0; i < kDieCount; ++i) sum += g.dice[i].face;
   return sum;
+}
+
+// --- Phase 4: game flow (SPEC §4, §5, §9; normal §8 scoring, no Joker) ---
+
+inline int score_for_category(const GameState& g, Category category) {
+  switch (category) {
+    case Category::Ones: return score_upper(g, 1);
+    case Category::Twos: return score_upper(g, 2);
+    case Category::Threes: return score_upper(g, 3);
+    case Category::Fours: return score_upper(g, 4);
+    case Category::Fives: return score_upper(g, 5);
+    case Category::Sixes: return score_upper(g, 6);
+    case Category::ThreeOfAKind: return score_three_of_a_kind(g);
+    case Category::FourOfAKind: return score_four_of_a_kind(g);
+    case Category::FullHouse: return score_full_house(g);
+    case Category::SmallStraight: return score_small_straight(g);
+    case Category::LargeStraight: return score_large_straight(g);
+    case Category::FiveOfAKind: return score_five_of_a_kind(g);
+    case Category::Chance: return score_chance(g);
+  }
+  return 0;
+}
+
+inline int filled_count(const Scorecard& card) {
+  int filled = 0;
+  for (int i = 0; i < kCategoryCount; ++i) {
+    if (card.slots[i].filled) ++filled;
+  }
+  return filled;
+}
+
+inline bool is_game_over(const GameState& game) {
+  return filled_count(game.scorecard) >= kCategoryCount;
+}
+
+// A category can be taken after the first roll of the turn (§5.4).
+inline bool can_select_category(const GameState& game) {
+  return !is_game_over(game) && game.rolls_used >= 1;
+}
+
+// After the third roll the player must choose a category (§5.5).
+inline bool must_select_category(const GameState& game) {
+  return !is_game_over(game) && game.rolls_used >= kMaxRollsPerTurn;
+}
+
+inline int upper_total(const Scorecard& card) {
+  int total = 0;
+  for (int i = 0; i <= static_cast<int>(Category::Sixes); ++i) {
+    total += card.slots[i].score;
+  }
+  return total;
+}
+
+inline int lower_total(const Scorecard& card) {
+  int total = 0;
+  for (int i = static_cast<int>(Category::ThreeOfAKind); i < kCategoryCount; ++i) {
+    total += card.slots[i].score;
+  }
+  return total;
+}
+
+inline int upper_bonus_points(const Scorecard& card) {
+  return upper_bonus_earned(card) ? kUpperBonusPoints : 0;
+}
+
+// SPEC §9 without Joker: Upper + Upper Bonus + Lower + Five-of-a-Kind bonuses.
+inline int total_score(const GameState& game) {
+  return upper_total(game.scorecard) + upper_bonus_points(game.scorecard) +
+         lower_total(game.scorecard) + game.five_of_a_kind_bonus_total;
+}
+
+// Fill exactly one unused category with the current dice (§5.6, §8).
+// On success advances to the next turn, except after the 13th fill.
+inline GameState select_category(GameState game, Category category) {
+  const int index = static_cast<int>(category);
+  if (is_game_over(game)) {
+    game.illegal_move.type = IllegalMoveType::GameAlreadyOver;
+    return game;
+  }
+  if (index < 0 || index >= kCategoryCount) {
+    game.illegal_move.type = IllegalMoveType::InvalidCategory;
+    return game;
+  }
+  if (game.scorecard.slots[index].filled) {
+    game.illegal_move.type = IllegalMoveType::CategoryAlreadyFilled;
+    return game;
+  }
+  if (game.rolls_used < 1) {
+    game.illegal_move.type = IllegalMoveType::NoRollYet;
+    return game;
+  }
+  game.scorecard.slots[index].score = score_for_category(game, category);
+  game.scorecard.slots[index].filled = true;
+  game.illegal_move.type = IllegalMoveType::None;
+  if (is_game_over(game)) {
+    return game;
+  }
+  for (int i = 0; i < kDieCount; ++i) {
+    game.dice[i].face = 0;
+    game.dice[i].locked = false;
+  }
+  game.rolls_used = 0;
+  ++game.turn;
+  return game;
 }
 
 }// namespace dice_party
