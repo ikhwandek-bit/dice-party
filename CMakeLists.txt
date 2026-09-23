@@ -22,3 +22,11 @@ add_executable(dice-tests
 target_include_directories(dice-tests PRIVATE src)
 
 add_test(NAME dice-tests COMMAND dice-tests)
+
+add_executable(scoring-tests
+  tests/test_scoring.cpp
+)
+
+target_include_directories(scoring-tests PRIVATE src)
+
+add_test(NAME scoring-tests COMMAND scoring-tests)
