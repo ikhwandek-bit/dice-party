@@ -6,13 +6,6 @@ Prioritize game rules and core logic before terminal presentation. Do not add GU
 
 Move a task to completed only after its acceptance criteria and the phase exit criteria in `ROADMAP.md` that it supports have passed. Keep this list aligned with `SPEC.md`; if implementation decides an open question, update `SPEC.md` in the same change.
 
-## Current tasks
-
-Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
-Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). 
-Phase 3 exit criteria passed (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
-Phase 4 — Game flow is next.
-
 ## Completed tasks
 
 ### Phase 1 — Project Foundation
@@ -25,7 +18,7 @@ Phase 4 — Game flow is next.
 - [x] Add `main` that builds, starts, and exits without playing a real game
 - [x] Keep scoring/state functions free of `cin`/`cout` (I/O only at the edge)
 
-## Phase 2 — Dice System
+### Phase 2 — Dice System
 
 - [x] Roll a single unlocked die to a value in 1–6
 - [x] Roll only unlocked dice; leave locked faces unchanged
@@ -37,7 +30,7 @@ Phase 4 — Game flow is next.
 - [x] Report illegal moves observably and clear the flag on success (all-locked, max-rolls, max-turns, pre-roll lock, bad index)
 - [x] Cover dice roll/lock/roll-limit/turn-reset with `dice-tests` (seeded RNG, no terminal)
 
-## Phase 3 — Scoring System
+### Phase 3 — Scoring System
 
 - [x] Score Ones–Sixes as the sum of matching faces
 - [x] Award Upper Section Bonus 35 iff the six Upper totals sum to ≥ 63
@@ -50,7 +43,9 @@ Phase 4 — Game flow is next.
 - [x] Score Chance as the sum of all five dice
 - [x] Add unit tests for SPEC.md examples and the invalid cases in §7–§8 (no terminal)
 
-## Phase 4 — Game Flow
+## Current tasks
+
+### Phase 4 — Game Flow
 
 - [ ] Start a game with 13 unused categories
 - [ ] Require a first roll every turn
@@ -62,7 +57,9 @@ Phase 4 — Game flow is next.
 - [ ] Compute final total: Upper + Upper Bonus + Lower (no Joker yet)
 - [ ] End the game after the 13th fill and report the total
 
-## Phase 5 — Special Rules
+## Upcoming tasks
+
+### Phase 5 — Special Rules
 
 - [ ] Detect five of a kind while Five of a Kind already holds 50
 - [ ] Add 100 to the total for each such occurrence
@@ -75,7 +72,7 @@ Phase 4 — Game flow is next.
 - [ ] If Five of a Kind holds 0: no +100, no Joker, normal §8 scoring
 - [ ] Cover SPEC.md §12.4 examples A–E with tests
 
-## Phase 6 — Terminal UI
+### Phase 6 — Terminal UI
 
 - [ ] Show all five faces after each roll
 - [ ] Show which dice are locked vs unlocked
@@ -86,7 +83,7 @@ Phase 4 — Game flow is next.
 - [ ] Print a clear error when a category is used or a fourth roll is requested
 - [ ] Print the final breakdown at game end
 
-## Phase 7 — Testing and Refinement
+### Phase 7 — Testing and Refinement
 
 - [ ] Unit-test every category, including 0-score dumps
 - [ ] Test lock/unlock and the three-roll limit
