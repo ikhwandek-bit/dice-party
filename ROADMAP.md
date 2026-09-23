@@ -86,7 +86,7 @@ Five dice can be rolled, locked, unlocked, and limited to three rolls per turn, 
 
 ## Phase 3 — Scoring System
 
-Status: Not started
+Status: Complete
 
 ### Outcome
 

@@ -10,7 +10,7 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 
 Phase 1 exit criteria passed (CMake build, stub run, data types, I/O isolated). 
 Phase 2 exit criteria passed (seeded-RNG `dice-tests`: rolls, locks, 3-roll limit, turn reset). 
-Phase 3 exit criteria testing (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
+Phase 3 exit criteria passed (scoring tests: upper/lower categories, bonus, straights, chance, full house). 
 Phase 4 — Game flow is next.
 
 ## Completed tasks
