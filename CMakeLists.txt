@@ -38,3 +38,11 @@ add_executable(game-flow-tests
 target_include_directories(game-flow-tests PRIVATE src)
 
 add_test(NAME game-flow-tests COMMAND game-flow-tests)
+
+add_executable(special-rules-tests
+  tests/test_special_rules.cpp
+)
+
+target_include_directories(special-rules-tests PRIVATE src)
+
+add_test(NAME special-rules-tests COMMAND special-rules-tests)
