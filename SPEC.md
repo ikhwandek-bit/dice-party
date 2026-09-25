@@ -1,8 +1,8 @@
 # Dice-Party — Specification
 
-> **Status:** Phase 5 in progress  
-> **Last updated:** 2026-09-23  
-> **Version:** 0.4  
+> **Status:** Phase 5 complete  
+> **Last updated:** 2026-09-25  
+> **Version:** 0.5  
 
 ---
 

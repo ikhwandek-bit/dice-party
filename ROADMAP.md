@@ -156,7 +156,7 @@ A 13-turn game that fills each category once, allows 0-score dumps, and reports 
 
 ## Phase 5 — Special Rules
 
-Status: In development
+Status: Complete
 
 ### Outcome
 

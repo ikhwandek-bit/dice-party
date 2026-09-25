@@ -55,22 +55,20 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] Compute final total: Upper + Upper Bonus + Lower (no Joker yet)
 - [x] End the game after the 13th fill and report the total
 
-## Current tasks
-
 ### Phase 5 — Special Rules
 
-- [ ] Detect five of a kind while Five of a Kind already holds 50
-- [ ] Add 100 to the total for each such occurrence
-- [ ] Forfeit remaining rolls and require an immediate category choice
-- [ ] Force the matching Upper category when it is still unused (`5 × face`)
-- [ ] If matching Upper is used, allow unused Lower categories only
-- [ ] Joker: Full House 25, Small Straight 30, Large Straight 40
-- [ ] Three of a Kind / Four of a Kind / Chance under Joker score `5 × face`
-- [ ] If Lower is full, force another unused Upper for 0
-- [ ] If Five of a Kind holds 0: no +100, no Joker, normal §8 scoring
-- [ ] Cover SPEC.md §12.4 examples A–E with tests
+- [x] Detect five of a kind while Five of a Kind already holds 50
+- [x] Add 100 to the total for each such occurrence
+- [x] Forfeit remaining rolls and require an immediate category choice
+- [x] Force the matching Upper category when it is still unused (`5 × face`)
+- [x] If matching Upper is used, allow unused Lower categories only
+- [x] Joker: Full House 25, Small Straight 30, Large Straight 40
+- [x] Three of a Kind / Four of a Kind / Chance under Joker score `5 × face`
+- [x] If Lower is full, force another unused Upper for 0
+- [x] If Five of a Kind holds 0: no +100, no Joker, normal §8 scoring
+- [x] Cover SPEC.md §12.4 examples A–E with tests (`special-rules-tests`)
 
-## Upcoming tasks
+## Current tasks
 
 ### Phase 6 — Terminal UI
 
@@ -82,6 +80,8 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [ ] Accept lock/unlock and category commands; reject malformed input without changing state
 - [ ] Print a clear error when a category is used or a fourth roll is requested
 - [ ] Print the final breakdown at game end
+
+## Upcoming tasks
 
 ### Phase 7 — Testing and Refinement
 
