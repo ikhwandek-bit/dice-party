@@ -43,8 +43,6 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] Score Chance as the sum of all five dice
 - [x] Add unit tests for SPEC.md examples and the invalid cases in §7–§8 (no terminal)
 
-## Completed tasks
-
 ### Phase 4 — Game Flow
 
 - [x] Start a game with 13 unused categories

@@ -1,6 +1,6 @@
 # Dice-Party — Specification
 
-> **Status:** Phase 4 Completed  
+> **Status:** Phase 5 in progress  
 > **Last updated:** 2026-09-23  
 > **Version:** 0.4  
 
