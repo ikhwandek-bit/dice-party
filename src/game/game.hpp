@@ -55,7 +55,9 @@ enum class IllegalMoveType {
   NoRollYet = 6,
   CategoryAlreadyFilled = 7,
   InvalidCategory = 8,
-  GameAlreadyOver = 9
+  GameAlreadyOver = 9,
+  BonusForcedStop = 10,
+  JokerForcedCategory = 11
 };
 
 struct IllegalMove {
@@ -75,6 +77,24 @@ inline GameState make_new_game() {
   return GameState{};
 }
 
+// --- Phase 5: Five-of-a-Kind Bonus detection (SPEC §11) ---
+// Bonus applies iff dice are five of a kind AND Five of a Kind holds 50.
+// Defined before roll_dice so the forced-stop check can use it.
+inline int current_five_face(const GameState& g) {
+  const int first = g.dice[0].face;
+  if (first < kMinFace || first > kMaxFace) return 0;
+  for (int i = 1; i < kDieCount; ++i) {
+    if (g.dice[i].face != first) return 0;
+  }
+  return first;
+}
+
+inline bool is_five_of_a_kind_bonus(const GameState& g) {
+  if (current_five_face(g) == 0) return false;
+  const CategorySlot& yahtzee = g.scorecard.slots[static_cast<int>(Category::FiveOfAKind)];
+  return yahtzee.filled && yahtzee.score == 50;
+}
+
 inline int unused_category_count(const Scorecard& card) {
   int unused = 0;
   for (int i = 0; i < kCategoryCount; ++i) {
@@ -88,6 +108,11 @@ inline int unused_category_count(const Scorecard& card) {
 inline GameState roll_dice(GameState game, std::mt19937& gen) {
   int locked_count = 0;
   game.illegal_move.type = IllegalMoveType::None; // Reset illegal move type at the start of the roll
+  // Phase 5 forced-stop (SPEC §11): a bonus five-of-a-kind forfeits remaining rolls.
+  if (is_five_of_a_kind_bonus(game)) {
+    game.illegal_move.type = IllegalMoveType::BonusForcedStop;
+    return game;
+  }
   for (int i = 0; i < kDieCount; ++i) {
     if (game.dice[i].locked) {
       ++locked_count;
@@ -318,8 +343,82 @@ inline bool can_select_category(const GameState& game) {
 }
 
 // After the third roll the player must choose a category (§5.5).
+// A Five-of-a-Kind Bonus also forces an immediate choice (§11).
 inline bool must_select_category(const GameState& game) {
-  return !is_game_over(game) && game.rolls_used >= kMaxRollsPerTurn;
+  if (is_game_over(game)) return false;
+  if (is_five_of_a_kind_bonus(game)) return true;
+  return game.rolls_used >= kMaxRollsPerTurn;
+}
+
+// --- Phase 5: Joker placement (SPEC §12) ---
+
+inline Category joker_matching_upper(int face) {
+  return static_cast<Category>(face - 1);  // Ones + (F - 1), face 1–6
+}
+
+inline bool is_upper_category(Category category) {
+  const int index = static_cast<int>(category);
+  return index >= static_cast<int>(Category::Ones) && index <= static_cast<int>(Category::Sixes);
+}
+
+inline bool is_lower_joker_eligible(Category category) {
+  switch (category) {
+    case Category::ThreeOfAKind:
+    case Category::FourOfAKind:
+    case Category::FullHouse:
+    case Category::SmallStraight:
+    case Category::LargeStraight:
+    case Category::Chance:
+      return true;
+    default:
+      return false;
+  }
+}
+
+inline bool lower_joker_has_open(const Scorecard& card) {
+  for (int i = static_cast<int>(Category::ThreeOfAKind); i < kCategoryCount; ++i) {
+    if (i == static_cast<int>(Category::FiveOfAKind)) continue;
+    if (!card.slots[i].filled) return true;
+  }
+  return false;
+}
+
+// Score for a bonus turn under Joker table §12.2. Face must be 1–6.
+inline int joker_score_for(Category category, int face) {
+  if (is_upper_category(category)) {
+    return (category == joker_matching_upper(face)) ? 5 * face : 0;
+  }
+  switch (category) {
+    case Category::ThreeOfAKind:
+    case Category::FourOfAKind:
+    case Category::Chance:
+      return 5 * face;
+    case Category::FullHouse:
+      return 25;
+    case Category::SmallStraight:
+      return 30;
+    case Category::LargeStraight:
+      return 40;
+    default:
+      return 0;
+  }
+}
+
+// Whether a category choice is legal under the forced Joker order §12.1.
+// Assumes basic guards (game over, valid index, unused, rolled) already hold.
+inline bool is_joker_choice_legal(const GameState& game, Category category) {
+  if (!is_five_of_a_kind_bonus(game)) return true;
+  const int face = current_five_face(game);
+  const Category matching = joker_matching_upper(face);
+  const bool matching_unused =
+      !game.scorecard.slots[static_cast<int>(matching)].filled;
+  if (matching_unused) {
+    return category == matching;
+  }
+  if (lower_joker_has_open(game.scorecard)) {
+    return is_lower_joker_eligible(category);
+  }
+  return is_upper_category(category);
 }
 
 inline int upper_total(const Scorecard& card) {
@@ -342,13 +441,13 @@ inline int upper_bonus_points(const Scorecard& card) {
   return upper_bonus_earned(card) ? kUpperBonusPoints : 0;
 }
 
-// SPEC §9 without Joker: Upper + Upper Bonus + Lower + Five-of-a-Kind bonuses.
+// SPEC §9: Upper + Upper Bonus + Lower + Five-of-a-Kind bonuses.
 inline int total_score(const GameState& game) {
   return upper_total(game.scorecard) + upper_bonus_points(game.scorecard) +
          lower_total(game.scorecard) + game.five_of_a_kind_bonus_total;
 }
 
-// Fill exactly one unused category with the current dice (§5.6, §8).
+// Fill exactly one unused category with the current dice (§5.6, §8, §11–§12).
 // On success advances to the next turn, except after the 13th fill.
 inline GameState select_category(GameState game, Category category) {
   const int index = static_cast<int>(category);
@@ -368,9 +467,20 @@ inline GameState select_category(GameState game, Category category) {
     game.illegal_move.type = IllegalMoveType::NoRollYet;
     return game;
   }
-  game.scorecard.slots[index].score = score_for_category(game, category);
-  game.scorecard.slots[index].filled = true;
-  game.illegal_move.type = IllegalMoveType::None;
+  if (is_five_of_a_kind_bonus(game)) {
+    if (!is_joker_choice_legal(game, category)) {
+      game.illegal_move.type = IllegalMoveType::JokerForcedCategory;
+      return game;
+    }
+    game.scorecard.slots[index].score = joker_score_for(category, current_five_face(game));
+    game.scorecard.slots[index].filled = true;
+    game.five_of_a_kind_bonus_total += kFiveOfAKindBonusPoints;
+    game.illegal_move.type = IllegalMoveType::None;
+  } else {
+    game.scorecard.slots[index].score = score_for_category(game, category);
+    game.scorecard.slots[index].filled = true;
+    game.illegal_move.type = IllegalMoveType::None;
+  }
   if (is_game_over(game)) {
     return game;
   }

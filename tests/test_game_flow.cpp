@@ -121,8 +121,11 @@ int main() {
   }
 
   // 7. Exactly 13 turns, one category per turn; game ends after the 13th fill (§4).
-  //    Scripted full game with a known total (no Joker): Upper 3+6+9+12+15+18=63
-  //    (+35 bonus) + Lower 18+12+25+30+40+50+30=205 → 63+35+205=303.
+  //    Scripted full game with a known total (avoids a §11 bonus so the flow
+  //    total stays Joker-free): Upper 3+6+9+12+15+18=63
+  //    (+35 bonus) + Lower 18+12+25+30+40+50+29=204 → 63+35+204=302.
+  //    (Chance uses {6,6,6,6,5}: five 6s there would trigger a +100 bonus
+  //    now that Phase 5 is active.)
   {
     GameState g = make_new_game();
     const int faces[13][5] = {
@@ -138,7 +141,7 @@ int main() {
         {3, 2, 4, 5, 3},  // Small Straight -> 30 (SPEC example)
         {1, 2, 3, 4, 5},  // Large Straight -> 40
         {4, 4, 4, 4, 4},  // Five of a Kind -> 50
-        {6, 6, 6, 6, 6},  // Chance -> 30
+        {6, 6, 6, 6, 5},  // Chance -> 29 (not five of a kind: no §11 bonus)
     };
     const Category order[13] = {
         Category::Ones,         Category::Twos,         Category::Threes,
@@ -159,14 +162,14 @@ int main() {
     EXPECT_EQ(g.turn, kTurnCount, "ends on turn 13");
     EXPECT_EQ(upper_total(g.scorecard), 63, "upper subtotal 63");
     EXPECT_EQ(upper_bonus_points(g.scorecard), 35, "bonus at threshold");
-    EXPECT_EQ(lower_total(g.scorecard), 205, "lower subtotal 205");
-    EXPECT_EQ(total_score(g), 303, "final total 63+35+205");
+    EXPECT_EQ(lower_total(g.scorecard), 204, "lower subtotal 204");
+    EXPECT_EQ(total_score(g), 302, "final total 63+35+204");
     GameState extra = g;
     for (int i = 0; i < kDieCount; ++i) extra.dice[i].face = 6;
     extra.rolls_used = 1;
     extra = select_category(extra, Category::Ones);
     EXPECT(extra.illegal_move.type == IllegalMoveType::GameAlreadyOver, "14th fill rejected");
-    EXPECT_EQ(total_score(extra), 303, "total unchanged after rejected fill");
+    EXPECT_EQ(total_score(extra), 302, "total unchanged after rejected fill");
     extra = new_turn(extra);
     EXPECT(extra.illegal_move.type == IllegalMoveType::MaxTurnsReached, "no turn past 13");
   }
