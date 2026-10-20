@@ -1,8 +1,8 @@
 # Dice-Party — Specification
 
-> **Status:** Phase 5 complete  
-> **Last updated:** 2026-09-25  
-> **Version:** 0.5  
+> **Status:** Phase 6 complete  
+> **Last updated:** 2026-10-20  
+> **Version:** 0.6  
 
 ---
 
@@ -325,6 +325,8 @@ Resolved in §12 for implementation, but flagged so a later spec change is expli
 - [x] Must the player confirm a category after roll 3, vs auto-prompt until valid? — **Decision:** The player must confirmt a category after roll 3  
 - [x] Display of running Upper Bonus — **Decision** show “35 if Upper ≥ 63” during play  
 - [x] Command language — **Decision** the user will use keys to navigate the game
+- [x] Quitting mid-game — **Decision** key **Q** (or input ending, e.g. Ctrl+D) aborts the
+      session immediately; an aborted game prints no final score and is not a completed game
 
 Still open (choose during implementation or a spec revision; do not silently invent extra mechanics):
 

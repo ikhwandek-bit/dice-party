@@ -68,20 +68,18 @@ Move a task to completed only after its acceptance criteria and the phase exit c
 - [x] If Five of a Kind holds 0: no +100, no Joker, normal §8 scoring
 - [x] Cover SPEC.md §12.4 examples A–E with tests (`special-rules-tests`)
 
-## Current tasks
-
 ### Phase 6 — Terminal UI
 
-- [ ] Show all five faces after each roll
-- [ ] Show which dice are locked vs unlocked
-- [ ] Show unused and filled categories with recorded scores
-- [ ] Show Upper subtotal, Upper Bonus if earned or pending threshold, Lower subtotal, grand total
-- [ ] Show turn number (1–13) and rolls used / remaining
-- [ ] Accept lock/unlock and category commands; reject malformed input without changing state
-- [ ] Print a clear error when a category is used or a fourth roll is requested
-- [ ] Print the final breakdown at game end
+- [x] Show all five faces after each roll
+- [x] Show which dice are locked vs unlocked
+- [x] Show unused and filled categories with recorded scores
+- [x] Show Upper subtotal, Upper Bonus if earned or pending threshold, Lower subtotal, grand total
+- [x] Show turn number (1–13) and rolls used / remaining
+- [x] Accept lock/unlock and category commands; reject malformed input without changing state
+- [x] Print a clear error when a category is used or a fourth roll is requested
+- [x] Print the final breakdown at game end
 
-## Upcoming tasks
+## Current tasks
 
 ### Phase 7 — Testing and Refinement
 

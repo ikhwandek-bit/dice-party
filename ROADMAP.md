@@ -191,7 +191,7 @@ Five-of-a-Kind Bonus and Joker placement match SPEC.md §11–§12.
 
 ## Phase 6 — Terminal UI
 
-Status: Not started
+Status: Complete
 
 ### Outcome
 
