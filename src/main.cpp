@@ -1,8 +1,10 @@
-#include "game/game.hpp"
+#include <iostream>
+#include <random>
+
 #include "io/terminal.hpp"
 
 int main() {
-  const dice_party::GameState game = dice_party::make_new_game();
-  dice_party::print_startup(game);
+  std::mt19937 gen(std::random_device{}());
+  dice_party::run_session(std::cin, std::cout, gen);
   return 0;
 }
